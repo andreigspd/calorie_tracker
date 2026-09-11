@@ -23,6 +23,9 @@ export default function MealSection({ meal, entries, onAddFood, onDelete }) {
             <ul className="food-list">
               {entries.map((entry) => (
                 <li key={entry.id} className="food-item">
+                  {entry.photo && (
+                    <img src={entry.photo} alt="" className="food-thumb" />
+                  )}
                   <span className="food-name">{entry.name}</span>
                   <div className="food-macros">
                     <span>P {entry.protein}g</span>

@@ -1,6 +1,6 @@
 # CalTrack — Calorie & Macro Tracker
 
-A simple, minimalist web app to track your daily calories and macros (protein, carbs, fat). Pick foods from a built-in database with portion sizes, or enter values manually. All data is stored locally in your browser — no account, no backend.
+A simple, minimalist web app to track your daily calories and macros (protein, carbs, fat). Pick foods from a built-in database with portion sizes, **scan a product barcode** to pull in real macros, **snap a photo** of your meal, or enter values manually. All data is stored locally in your browser — no account, no backend.
 
 **Live demo:** https://andreigspd.github.io/calorie_tracker/
 
@@ -10,6 +10,8 @@ A simple, minimalist web app to track your daily calories and macros (protein, c
 - **Macro tracking** — protein, carbs, and fat totals, each with its own progress bar toward a goal.
 - **Food database** — pick from ~40 common foods (chicken breast, rice, eggs, etc.) grouped by category, with search.
 - **Portion sizes** — choose a preset portion (50 g, 100 g, 150 g, 200 g, 250 g, 1 serving) or type a custom gram amount. Macros scale automatically with a live preview before you add.
+- **Barcode scanner** — point your camera at a packaged product's barcode to fetch its name and per-100 g macros from the free [Open Food Facts](https://world.openfoodfacts.org) database, then pick a portion. No camera or barcode not recognized? Type the number in manually.
+- **Photo capture** — take a photo of your meal (or choose one from your gallery) and attach it to the entry as a thumbnail, then confirm the food from the database. Photos can be attached to any entry, not just photo-based ones.
 - **Manual entry** — a fallback tab to log any food by typing its name, calories, and macros.
 - **Meals** — entries are grouped into Breakfast, Lunch, Dinner, and Snacks (collapsible sections).
 - **Daily goals** — set your own calorie and macro targets.
@@ -20,7 +22,15 @@ A simple, minimalist web app to track your daily calories and macros (protein, c
 
 - React 19 + Vite
 - Plain CSS (no UI framework)
+- [`@zxing/browser`](https://github.com/zxing-js/browser) for in-browser barcode scanning (lazy-loaded)
+- [Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/) for barcode → nutrition lookups (free, keyless)
 - Data persisted in the browser via `localStorage`
+
+## Permissions & Privacy
+
+- **Camera** access is requested only when you open the **Scan** tab or tap **Take photo**. It is used entirely on-device — no video is uploaded anywhere.
+- Barcode scanning only sends the **decoded number** (not any image) to Open Food Facts to look up nutrition facts.
+- Meal photos are downscaled to a small thumbnail and stored only in your browser's `localStorage`.
 
 ## Getting Started
 
@@ -47,10 +57,13 @@ To enable it once on the repo: **Settings → Pages → Build and deployment →
 src/
 ├── App.jsx                    # state, localStorage, layout, date navigation
 ├── foodData.js                # food database + portion presets + scaling helper
+├── openFoodFacts.js           # barcode → per-100g nutrition lookup (Open Food Facts)
+├── imageUtils.js              # downscale a photo to a small JPEG thumbnail
 ├── components/
 │   ├── DailySummary.jsx       # calorie + macro totals with progress bars
-│   ├── AddFoodModal.jsx       # food picker (search + portions) and manual entry tabs
-│   ├── MealSection.jsx        # per-meal collapsible list of entries
+│   ├── AddFoodModal.jsx       # Choose / Scan / Photo / Manual tabs
+│   ├── BarcodeScanner.jsx     # live camera barcode scanner (lazy-loaded)
+│   ├── MealSection.jsx        # per-meal collapsible list of entries (with photo thumbs)
 │   └── GoalSettings.jsx       # calorie & macro goal editor
 ├── index.css                  # theme variables + base styles
 └── App.css                    # component styles
@@ -58,10 +71,26 @@ src/
 
 ## Nutrition Data
 
-Values in the food database are approximate per-100 g (or per-100 ml for liquids) figures
-based on common nutrition databases. Treat them as estimates, not precise measurements.
+Values in the built-in food database are approximate per-100 g (or per-100 ml for liquids)
+figures based on common nutrition databases. Barcode lookups return crowd-sourced data from
+Open Food Facts, whose completeness and accuracy vary by product. Treat all values as
+estimates, not precise measurements.
+
+> **Note on the camera features:** browsers only allow camera access over **HTTPS** (or on
+> `localhost`). The live demo and the local dev server both qualify. On very old browsers the
+> live scanner may be unavailable — the manual barcode-number field is always there as a
+> fallback.
 
 ## Changelog
+
+### v3 — Barcode scanner & photo capture
+- Added a **barcode scanner** (Scan tab) that reads EAN/UPC codes from the live camera and
+  fetches per-100 g macros from Open Food Facts, feeding into the existing portion picker.
+  Includes a manual barcode-number fallback and clear not-found / no-nutrition handling.
+- Added **photo capture** (Photo tab): take a picture or choose from the gallery; the image is
+  downscaled to a thumbnail, attached to the entry, and shown in the meal list.
+- Reworked the "Add Food" dialog into four tabs: **Choose**, **Scan**, **Photo**, **Manual**.
+- The barcode scanner (and its ZXing dependency) is **lazy-loaded**, keeping the initial bundle small.
 
 ### v2 — Redesign & food database
 - Replaced the previous dark/gradient theme with a **minimalist white & blue** design: system fonts, flat colors, no gradients, no emojis.
