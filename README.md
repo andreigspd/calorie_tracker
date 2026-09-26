@@ -4,6 +4,16 @@ A simple, minimalist web app to track your daily calories and macros (protein, c
 
 **Live demo:** https://andreigspd.github.io/calorie_tracker/
 
+## Demo
+
+Main screen with a partially logged day:
+
+<img src="docs/main_page.png" alt="CalTrack main screen with logged meals and macro progress" width="640">
+
+Scanning a product barcode to auto-fill nutrition from Open Food Facts:
+
+<img src="docs/Animation.gif" alt="Barcode scanning demo" width="320">
+
 ## Features
 
 - **Daily summary** — total calories eaten, remaining calories against your goal, and a progress bar.
