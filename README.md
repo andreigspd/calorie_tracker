@@ -6,15 +6,9 @@ A simple, minimalist web app to track your daily calories and macros (protein, c
 
 ## Demo
 
-<p align="center">
-  <img src="docs/main_page.png" alt="CalTrack main screen with logged meals and macro progress" height="420">
-  &nbsp;&nbsp;
-  <img src="docs/Animation.gif" alt="Barcode scanning demo" height="420">
-</p>
-
-<p align="center">
-  <em>Main screen with a partially logged day &nbsp;·&nbsp; scanning a barcode to auto-fill nutrition from Open Food Facts</em>
-</p>
+| Main screen | Barcode scanning |
+|:---:|:---:|
+| <img src="docs/main_page.png" alt="CalTrack main screen with logged meals and macro progress" height="320"> | <img src="docs/Animation.gif" alt="Barcode scanning demo" height="320"> |
 
 ## Features
 
