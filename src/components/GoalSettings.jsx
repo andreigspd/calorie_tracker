@@ -12,37 +12,28 @@ export default function GoalSettings({ goals, onSave, onClose }) {
   };
 
   const macros = [
-    { key: 'protein', label: 'Protein', color: 'var(--protein)' },
-    { key: 'carbs',   label: 'Carbs',   color: 'var(--carbs)'   },
-    { key: 'fat',     label: 'Fat',     color: 'var(--fat)'     },
+    { key: 'protein', label: 'Protein' },
+    { key: 'carbs',   label: 'Carbs'   },
+    { key: 'fat',     label: 'Fat'     },
   ];
 
   return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal">
-        <h2>🎯 Daily Goals</h2>
+        <h2>Daily Goals</h2>
+        <p className="modal-sub">Set your daily calorie and macro targets.</p>
         <form onSubmit={handleSubmit}>
           <p className="goals-section-title">Calories</p>
           <div className="form-group">
             <label>Daily Calorie Goal (kcal)</label>
-            <input
-              type="number"
-              min="0"
-              value={form.calories}
-              onChange={set('calories')}
-            />
+            <input type="number" min="0" value={form.calories} onChange={set('calories')} />
           </div>
 
           <p className="goals-section-title">Macros</p>
-          {macros.map(({ key, label, color }) => (
+          {macros.map(({ key, label }) => (
             <div className="form-group" key={key}>
-              <label style={{ color }}>{label} (g)</label>
-              <input
-                type="number"
-                min="0"
-                value={form[key]}
-                onChange={set(key)}
-              />
+              <label>{label} (g)</label>
+              <input type="number" min="0" value={form[key]} onChange={set(key)} />
             </div>
           ))}
 

@@ -101,10 +101,10 @@ export default function App() {
     <div className="app">
       {/* Header */}
       <div className="header">
-        <h1>🥗 CalTrack</h1>
+        <h1>CalTrack</h1>
         <div className="header-actions">
-          <button className="btn btn-ghost" onClick={() => setShowGoals(true)}>🎯 Goals</button>
-          <button className="btn btn-primary" onClick={() => openAdd('Breakfast')}>＋ Add Food</button>
+          <button className="btn btn-ghost" onClick={() => setShowGoals(true)}>Goals</button>
+          <button className="btn btn-primary" onClick={() => openAdd('Breakfast')}>Add Food</button>
         </div>
       </div>
 
